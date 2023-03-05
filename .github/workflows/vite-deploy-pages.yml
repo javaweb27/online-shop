@@ -1,0 +1,50 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ['main']
+    
+env:
+  VITE_NODE_API: ${{secrets.VITE_NODE_API}}
+    
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Show the current directory
+        run: pwd
+        
+      - name: Show all files and folders
+        run: ls -a      
+        
+      - name: Show NODE API from env variables (secrets)
+        run: |
+          echo "repository variable : $VITE_NODE_API"
+          
+      - name: Show RUNNER_OS env var of github
+        run: |
+          echo "repository variable : $RUNNER_OS"
+        
+      - name: Install and Build
+        run: cd front-react/ && npm i && npm run build
+        
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: front-react/dist

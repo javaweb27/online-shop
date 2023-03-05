@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-md py-2 px-2 my-2;
+    @apply bg-neutral-bg-alt hover:bg-neutral-bg-alt-hover text-neutral-font;
+  }
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-hover text-white;
+  }
+}

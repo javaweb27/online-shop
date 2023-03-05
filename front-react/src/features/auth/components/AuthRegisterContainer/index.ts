@@ -1,0 +1,1 @@
+export { AuthRegisterContainer } from "./AuthRegisterContainer"
