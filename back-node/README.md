@@ -1,4 +1,4 @@
-# Messaging App
+# Online shop
 
 The **Backend** part in **Express (Node.js)**
 
