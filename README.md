@@ -26,7 +26,7 @@ Users can see their orders, an order shows:
 Users can also see their profile data such as email and current balance, and buttons to change the theme color to dark or light.
 
 Users must create an account with email and password to order products.\
-One the account is created, they will receive a random balance to order products.
+Once the account is created, they will receive a random balance to order products.
 
 ## Details of the App
 
