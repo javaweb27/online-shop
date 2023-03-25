@@ -24,7 +24,7 @@ function Banner() {
           tenetur ullam odit.
         </p>
       </div>
-      <div className=" h-[56vh] grid grid-cols-[100%,100%] relative overflow-hidden">
+      <div className="h-[56vh] grid grid-cols-[100%,100%] grid-rows-1 relative overflow-hidden">
         <img
           className="animate-banner h-full w-full object-contain"
           src={hamburger1Url}
