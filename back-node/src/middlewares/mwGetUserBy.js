@@ -1,4 +1,4 @@
-import UserModel from "../models/UserModel"
+import UserModel from "../folders/users/UserModel"
 import { Types } from "mongoose"
 
 const mwGetUserBy = {

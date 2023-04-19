@@ -1,8 +1,8 @@
 import { Router } from "express"
-import mwGetUserBy from "../middlewares/mwGetUserBy"
-import UserModel from "../models/UserModel"
-import mwMustTheUserExist from "../middlewares/mwMustTheUserExist"
-import mwDecodeAuthToken from "../middlewares/mwDecodeAuthToken"
+import mwGetUserBy from "../../middlewares/mwGetUserBy"
+import UserModel from "./UserModel"
+import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
+import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
 
 const usersRouter = Router()
 
@@ -25,6 +25,8 @@ usersRouter.post(
         password: encryptedPassword,
         balance: 270,
         orders: [],
+        isAccountConfirmed: false,
+        confirmationToken: "token is missing",
       })
 
       ser.status(201).json(user)

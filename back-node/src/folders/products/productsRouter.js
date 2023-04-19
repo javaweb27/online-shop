@@ -1,7 +1,8 @@
 import { Router } from "express"
 import mongoose from "mongoose"
-import { paginateItems } from "../helps/paginateItems"
-import ProductModel, { PRODUCTS_CAT } from "../models/ProductModel"
+// import { paginateItems } from "../helps/paginateItems"
+import { paginateItems } from "../../helps/paginateItems"
+import ProductModel, { PRODUCTS_CAT } from "./ProductModel"
 
 const productsRouter = Router()
 
@@ -53,25 +54,25 @@ productsRouter.get("/:id", async (cli, ser) => {
 })
 
 // Creating one new product
-// productsRouter.post("/", async (cli, ser) => {
-//   console.log(`POST /products - create one new product`)
+productsRouter.post("/", async (cli, ser) => {
+  console.log(`POST /products - create one new product`)
 
-//   if (!PRODUCTS_CAT[cli.body.category]) {
-//     return ser.status(400).json({ message: "this category does no exist" })
-//   }
+  if (!PRODUCTS_CAT[cli.body.category]) {
+    return ser.status(400).json({ message: "this category does no exist" })
+  }
 
-//   try {
-//     const prod = await ProductModel.create({
-//       title: cli.body.title,
-//       price: Math.trunc(Math.random() * 100) + 1,
-//       category: cli.body.category,
-//       imgSrc: cli.body.imgSrc,
-//     })
+  try {
+    const prod = await ProductModel.create({
+      title: cli.body.title,
+      price: Math.trunc(Math.random() * 100) + 1,
+      category: cli.body.category,
+      imgSrc: cli.body.imgSrc,
+    })
 
-//     ser.json(prod)
-//   } catch (error) {
-//     ser.status(400).json({ message: error.message })
-//   }
-// })
+    ser.json(prod)
+  } catch (error) {
+    ser.status(400).json({ message: error.message })
+  }
+})
 
 export default productsRouter

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
-import { emailRegex } from "../helps/regex"
-import createJwtToken from "../lib/createJwtToken"
+import { emailRegex } from "../../helps/regex"
+import createJwtToken from "../../lib/createJwtToken"
 import bcrypt from "bcrypt"
 import { OrderSch } from "./OrderSch"
 
@@ -23,6 +23,14 @@ const UserSchema = new Schema({
     type: Number,
     min: 0,
     max: 27000,
+    required: true,
+  },
+  isAccountConfirmed: {
+    type: Boolean,
+    required: true,
+  },
+  confirmationToken: {
+    type: String,
     required: true,
   },
   orders: [OrderSch],

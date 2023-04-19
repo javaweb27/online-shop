@@ -1,11 +1,9 @@
 import { Router } from "express"
-import dbGetProductsToBeOrdered from "../lib/dbGetProductsToBeOrdered"
-import mwGetUserBy from "../middlewares/mwGetUserBy"
-import mwDecodeAuthToken from "../middlewares/mwDecodeAuthToken"
-// import { paginateItems } from "../helps/paginateItems"
-// import UserModel from "../models/UserModel"
-import mwMustTheUserExist from "../middlewares/mwMustTheUserExist"
-import dbGetOrderedProducts from "../lib/dbGetOrderedProducts"
+import dbGetProductsToBeOrdered from "../../lib/dbGetProductsToBeOrdered"
+import mwGetUserBy from "../../middlewares/mwGetUserBy"
+import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
+import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
+import dbGetOrderedProducts from "../../lib/dbGetOrderedProducts"
 
 const ordersRouter = Router()
 
