@@ -17,7 +17,7 @@ These versions indicate the versions **I used** to develop this project, not the
 
 Node.js 18 must be installed.
 
-MongoDB 6 must be installed.
+MongoDB 5 must be installed.
 
 ---
 
