@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     max: 27000,
     required: true,
   },
-  isAccountConfirmed: {
+  isEmailConfirmed: {
     type: Boolean,
     required: true,
   },

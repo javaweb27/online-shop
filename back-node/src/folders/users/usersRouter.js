@@ -3,6 +3,8 @@ import mwGetUserBy from "../../middlewares/mwGetUserBy"
 import UserModel from "./UserModel"
 import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
 import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
+import { mailerSendConfimationLink } from "../../mailer"
+import createJwtToken from "../../lib/createJwtToken"
 
 const usersRouter = Router()
 
@@ -14,26 +16,35 @@ usersRouter.post(
   mwMustTheUserExist(false),
   async (cli, ser) => {
     console.log(`POST /users - create one new user`)
+    createJwtToken({ email: cli.body.email }, async (err, token) => {
+      if (err) {
+        ser.sendStatus(500)
+        return
+      }
+      try {
+        const encryptedPassword = await UserModel.schema.methods.encryptPassword(
+          cli.body.password
+        )
 
-    try {
-      const encryptedPassword = await UserModel.schema.methods.encryptPassword(
-        cli.body.password
-      )
+        const userConfirmationToken = token
 
-      const user = await UserModel.create({
-        email: cli.body.email,
-        password: encryptedPassword,
-        balance: 270,
-        orders: [],
-        isAccountConfirmed: false,
-        confirmationToken: "token is missing",
-      })
+        const user = await UserModel.create({
+          email: cli.body.email,
+          password: encryptedPassword,
+          balance: 270,
+          orders: [],
+          isEmailConfirmed: false,
+          confirmationToken: userConfirmationToken,
+        })
 
-      ser.status(201).json(user)
-    } catch (error) {
-      console.error("Cannot register user, fields are invalid, " + error.message)
-      ser.status(400).json({ message: "Cannot register user, fields are invalid" })
-    }
+        mailerSendConfimationLink({ userConfirmationToken, userEmail: user.email })
+
+        ser.status(201).json(user)
+      } catch (error) {
+        console.error("Cannot register user, fields are invalid, " + error.message)
+        ser.status(400).json({ message: "Cannot register user, fields are invalid" })
+      }
+    })
   }
 )
 
