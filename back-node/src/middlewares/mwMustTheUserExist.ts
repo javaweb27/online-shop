@@ -5,8 +5,11 @@
  * @param {number} statusOnExist
  */
 
-const mwMustTheUserExist = (mustItExist, statusOnExist = 404) => {
-  return (cli, res, next) => {
+import { NextFunction, Request, Response } from "express"
+
+const mwMustTheUserExist = (mustItExist: boolean, statusOnExist = 404) => {
+  return (cli: Request, res: Response, next: NextFunction) => {
+    // @ts-ignore
     if (Boolean(cli.mwUser) === mustItExist) {
       return next()
     }

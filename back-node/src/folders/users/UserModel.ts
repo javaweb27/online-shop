@@ -1,16 +1,34 @@
-import { Schema, model } from "mongoose"
+import { Model, Schema, Types, model } from "mongoose"
+import { SignCallback } from "jsonwebtoken"
 import { emailRegex } from "../../helps/regex"
 import createJwtToken from "../../lib/createJwtToken"
 import bcrypt from "bcrypt"
-import { OrderSch } from "./OrderSch"
+import { IOrder, OrderSch } from "./OrderSch"
 
-const UserSchema = new Schema({
+interface IUser {
+  email: string
+  password: string
+  balance: number
+  isEmailConfirmed: boolean
+  confirmationToken: string
+  orders: Types.DocumentArray<IOrder>
+}
+
+interface IUserMethods {
+  createAuthToken(callbackfunc: SignCallback): void
+  comparePassword(password: string): Promise<boolean>
+  encryptPassword(password: string): Promise<string>
+}
+
+type UserModel = Model<IUser, Record<string, never>, IUserMethods>
+
+const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   email: {
     type: String,
     required: true,
     lowercase: true,
     validate: {
-      validator: v => Boolean(emailRegex.exec(v)) === true,
+      validator: (v: string) => Boolean(emailRegex.exec(v)) === true,
       message: () => "it has not a valid format to register",
     },
   },
@@ -36,7 +54,7 @@ const UserSchema = new Schema({
   orders: [OrderSch],
 })
 
-UserSchema.methods.createAuthToken = function (callbackfunc) {
+UserSchema.methods.createAuthToken = function (callbackfunc: SignCallback) {
   createJwtToken(
     {
       _id: this._id,
@@ -48,13 +66,13 @@ UserSchema.methods.createAuthToken = function (callbackfunc) {
   )
 }
 
-UserSchema.methods.comparePassword = async function (password) {
+UserSchema.methods.comparePassword = async function (password: string) {
   if (!password) return false
 
   return await bcrypt.compare(password, this.password)
 }
 
-UserSchema.methods.encryptPassword = async function (password) {
+UserSchema.methods.encryptPassword = async function (password: string) {
   if (!password || password.length <= 6) {
     throw new Error("password must be longer than 6 characters")
   }

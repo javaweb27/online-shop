@@ -40,7 +40,7 @@ usersRouter.post(
         mailerSendConfimationLink({ userConfirmationToken, userEmail: user.email })
 
         ser.status(201).json(user)
-      } catch (error) {
+      } catch (error: any) {
         console.error("Cannot register user, fields are invalid, " + error.message)
         ser.status(400).json({ message: "Cannot register user, fields are invalid" })
       }
@@ -56,6 +56,7 @@ usersRouter.put(
   mwMustTheUserExist(true),
   async (cli, res) => {
     console.log(`PUT /users - updating a user`)
+    // @ts-ignore
     const User = cli.mwUser
 
     if ((await User.comparePassword(cli.body.passCurrent)) === false) {
@@ -69,7 +70,7 @@ usersRouter.put(
 
       await User.save()
 
-      User.createAuthToken((error, encodedToken) => {
+      User.createAuthToken((error: Error | null, encodedToken: string | undefined) => {
         if (error) {
           return res
             .status(500)
@@ -79,7 +80,7 @@ usersRouter.put(
         console.log("a user has update password")
         res.status(201).json({ authToken: encodedToken })
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error("Cannot update password, " + error.message)
       res
         .status(400)
@@ -96,13 +97,14 @@ usersRouter.delete(
   mwMustTheUserExist(true),
   async (cli, res) => {
     console.log(`DELETE /users - deleting a user`)
+    // @ts-ignore
     const User = cli.mwUser
 
     try {
       await UserModel.deleteOne({ email: User.email })
 
       res.json({ message: "a user has been deleted" })
-    } catch (error) {
+    } catch (error: any) {
       console.error("error to delete user,", error.message)
       res.sendStatus(500)
     }

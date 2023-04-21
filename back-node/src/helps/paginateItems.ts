@@ -1,6 +1,6 @@
 const maxResults = 3
 
-export const paginateItems = (page, myItems) => {
+export const paginateItems = (page: number, myItems: unknown[]) => {
   const totalPages = Math.ceil(myItems.length / maxResults)
 
   if (page < 1) {

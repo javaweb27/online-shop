@@ -10,16 +10,19 @@ const productsRouter = Router()
 productsRouter.get("/", async (cli, ser) => {
   console.log(`GET /products - page ${cli.query.page} - category ${cli.query.category}`)
 
+  // @ts-ignore
   const categoryToShow = cli.query.category?.toLowerCase()
 
   // when the category does not exist or it is "all" send all products
   const filterObj =
+    // @ts-ignore
     categoryToShow !== "all" && PRODUCTS_CAT[categoryToShow]
       ? { category: categoryToShow }
       : {}
 
   const products = await ProductModel.find(filterObj)
 
+  // @ts-ignore
   const parsedPageNum = parseInt(cli.query.page)
 
   if (isNaN(parsedPageNum)) return ser.sendStatus(400)
@@ -57,6 +60,7 @@ productsRouter.get("/:id", async (cli, ser) => {
 productsRouter.post("/", async (cli, ser) => {
   console.log(`POST /products - create one new product`)
 
+  // @ts-ignore
   if (!PRODUCTS_CAT[cli.body.category]) {
     return ser.status(400).json({ message: "this category does no exist" })
   }
@@ -70,7 +74,7 @@ productsRouter.post("/", async (cli, ser) => {
     })
 
     ser.json(prod)
-  } catch (error) {
+  } catch (error: any) {
     ser.status(400).json({ message: error.message })
   }
 })

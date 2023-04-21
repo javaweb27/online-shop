@@ -1,6 +1,17 @@
-import { Schema, SchemaTypes } from "mongoose"
+import { Schema, Types } from "mongoose"
 
-export const OrderSch = new Schema({
+export interface IOrder {
+  street: string
+  createdAt: string
+  productsObjIds: [
+    {
+      _id: Types.ObjectId
+      quantity: number
+    }
+  ]
+}
+
+export const OrderSch = new Schema<IOrder>({
   // automatic _id for each order
   street: { type: String, required: true },
   createdAt: {
@@ -11,7 +22,7 @@ export const OrderSch = new Schema({
   productsObjIds: [
     {
       _id: {
-        type: SchemaTypes.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
       },
       quantity: {

@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken"
+import jwt, { SignCallback } from "jsonwebtoken"
 import { JWT_TOKEN_KEY } from "../config"
 
-const createJwtToken = (data, callbackfunc) => {
+const createJwtToken = (data: Record<string, any>, callbackfunc: SignCallback) => {
   jwt.sign(
     { data },
     JWT_TOKEN_KEY,

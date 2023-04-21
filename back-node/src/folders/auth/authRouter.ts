@@ -11,6 +11,7 @@ authRouter.post(
   async (cli, ser) => {
     console.log("POST /auth - login user by email")
 
+    // @ts-ignore
     const User = cli.mwUser
 
     if ((await User.comparePassword(cli.body.password)) === false) {
@@ -19,7 +20,7 @@ authRouter.post(
       })
     }
 
-    User.createAuthToken((error, encodedToken) => {
+    User.createAuthToken((error: Error | null, encodedToken: string | undefined) => {
       if (error) {
         console.log("route /auth:", "error 500 to create auth token when login")
         return ser.status(500).json({ message: "error to create auth token when login" })

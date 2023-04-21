@@ -1,7 +1,9 @@
 import ProductModel from "../folders/products/ProductModel"
 // import { Types } from "mongoose"
 
-const dbGetProductsToBeOrdered = async productsToOrder => {
+const dbGetProductsToBeOrdered = async (
+  productsToOrder: { _id: string; qty: number }[]
+) => {
   const ids = productsToOrder.map(prod => prod._id)
 
   const foundProducts = await ProductModel.find(
@@ -11,7 +13,7 @@ const dbGetProductsToBeOrdered = async productsToOrder => {
     { price: 1 }
   )
 
-  const findQuantity = id => productsToOrder.find(({ _id }) => _id === id).qty
+  const findQuantity = (id: string) => productsToOrder.find(({ _id }) => _id === id)!.qty
 
   // client must send an array of {_id,qty} so findQuanity is not undefined
   // const findQuantity = id => productsToOrder.find(({ _id }) => _id === id)?.qty ?? 1
