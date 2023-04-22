@@ -1,7 +1,7 @@
 import { Model, Schema, model } from "mongoose"
 import { SignCallback } from "jsonwebtoken"
 import { emailRegex } from "../../helps/regex"
-import createJwtToken from "../../lib/createJwtToken"
+import { jwtSigner } from "../../lib/jwtSigner"
 import bcrypt from "bcrypt"
 
 interface IUser {
@@ -52,15 +52,18 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
 })
 
 UserSchema.methods.createAuthToken = function (callbackfunc: SignCallback) {
-  createJwtToken(
-    {
-      _id: this._id,
-      email: this.email,
-      password: this.password,
-      balance: this.balance,
-    },
-    callbackfunc
-  )
+  jwtSigner({
+    _id: this._id,
+    email: this.email,
+    password: this.password,
+    balance: this.balance,
+  })
+    .then(token => {
+      callbackfunc(null, token)
+    })
+    .catch(error => {
+      callbackfunc(error, undefined)
+    })
 }
 
 UserSchema.methods.comparePassword = async function (password: string) {
