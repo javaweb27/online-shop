@@ -15,19 +15,16 @@ export const changePassword = async (cli: Request, res: Response) => {
     User.password = await User.encryptPassword(cli.body.passNew)
 
     await User.save()
+    console.log("a user has update password")
 
-    User.createAuthToken((error: Error | null, encodedToken: string | undefined) => {
-      if (error) {
-        return res.status(500).json({ message: "error to create auth token when login" })
-      }
+    const authToken = await User.createAuthToken()
 
-      console.log("a user has update password")
-      res.status(201).json({ authToken: encodedToken })
-    })
+    res.status(201).json({ authToken }) // why a new token??
   } catch (error: any) {
     console.error("Cannot update password, " + error.message)
     res
       .status(400)
       .json({ message: "Cannot update password, it must be longer than 6 characters" })
+    // return res.status(500).json({ message: "error when creating the auth token when changing the user password" })
   }
 }

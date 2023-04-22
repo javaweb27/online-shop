@@ -12,12 +12,11 @@ export const logIn = async (cli: Request, ser: Response) => {
     })
   }
 
-  User.createAuthToken((error: Error | null, encodedToken: string | undefined) => {
-    if (error) {
-      console.log("route /auth:", "error 500 to create auth token when login")
-      return ser.status(500).json({ message: "error to create auth token when login" })
-    }
-
-    ser.json({ authToken: encodedToken })
-  })
+  try {
+    const authToken = await User.createAuthToken()
+    ser.json({ authToken })
+  } catch (error) {
+    console.log("\nerror 500 when creating auth token for logging in")
+    ser.status(500).json({ message: "error when creating auth token for logging inn" })
+  }
 }

@@ -51,19 +51,13 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   },
 })
 
-UserSchema.methods.createAuthToken = function (callbackfunc: SignCallback) {
-  jwtSigner({
+UserSchema.methods.createAuthToken = async function () {
+  return await jwtSigner({
     _id: this._id,
     email: this.email,
     password: this.password,
     balance: this.balance,
   })
-    .then(token => {
-      callbackfunc(null, token)
-    })
-    .catch(error => {
-      callbackfunc(error, undefined)
-    })
 }
 
 UserSchema.methods.comparePassword = async function (password: string) {
