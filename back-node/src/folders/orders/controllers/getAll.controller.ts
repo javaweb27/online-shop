@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import OrderModel from "../OrderModel"
 
 /**
  * get all orders of a user
@@ -7,7 +8,12 @@ export const getAll = async (cli: Request, res: Response) => {
   console.log(`GET /orders - orders of a user`)
 
   // @ts-ignore
-  const { _id, email, orders } = cli.mwUser
+  const { _id, email } = cli.mwUser
 
-  res.json({ _id, email, orders })
+  try {
+    const orders = await OrderModel.find({ userId: _id }, { userId: 0 })
+    res.json({ _id, email, orders })
+  } catch (error) {
+    res.status(500).json({ message: "error when getting all orders of a user" })
+  }
 }

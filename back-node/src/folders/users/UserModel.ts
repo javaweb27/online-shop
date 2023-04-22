@@ -1,9 +1,8 @@
-import { Model, Schema, Types, model } from "mongoose"
+import { Model, Schema, model } from "mongoose"
 import { SignCallback } from "jsonwebtoken"
 import { emailRegex } from "../../helps/regex"
 import createJwtToken from "../../lib/createJwtToken"
 import bcrypt from "bcrypt"
-import { IOrder, OrderSch } from "./OrderSch"
 
 interface IUser {
   email: string
@@ -11,7 +10,6 @@ interface IUser {
   balance: number
   isEmailConfirmed: boolean
   confirmationToken: string
-  orders: Types.DocumentArray<IOrder>
 }
 
 interface IUserMethods {
@@ -51,7 +49,6 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: true,
   },
-  orders: [OrderSch],
 })
 
 UserSchema.methods.createAuthToken = function (callbackfunc: SignCallback) {

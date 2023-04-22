@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import dbGetProductsToBeOrdered from "../../../lib/dbGetProductsToBeOrdered"
+import OrderModel from "../OrderModel"
 
 /**
  * create one order for a user
@@ -23,25 +24,20 @@ export const createOne = async (cli: Request, res: Response) => {
 
   User.balance -= totalPrice
 
-  User.orders.push({
+  const newOrder = new OrderModel({
     // auto object _id for order
     // auto createdAt date for order
     productsObjIds: productsToBeOrdered,
     street: cli.body.street,
+    userId: User._id,
   })
 
   try {
     // error may come from balance, less than 0
     await User.save()
+    await newOrder.save()
 
-    User.createAuthToken((error: any, encodedToken: any) => {
-      if (error) {
-        console.log("route /auth:", "error 500 to create auth token when login")
-        return res.status(500).json({ message: "error to create auth token when login" })
-      }
-
-      res.status(201).json({ authToken: encodedToken })
-    })
+    res.status(201).json({ message: "order created at " + newOrder.createdAt })
   } catch (error: any) {
     console.log(error)
 
