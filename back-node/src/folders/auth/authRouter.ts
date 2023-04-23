@@ -12,4 +12,12 @@ authRouter.post(
   authController.logIn
 )
 
+// auth - register (create new user)
+authRouter.post(
+  "/register",
+  mwGetUserBy.bodyEmail,
+  mwMustTheUserExist(false),
+  authController.register
+)
+
 export default authRouter

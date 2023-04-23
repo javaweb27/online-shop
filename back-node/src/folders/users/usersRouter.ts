@@ -6,14 +6,10 @@ import * as usersController from "./controllers"
 
 const usersRouter = Router()
 
-// Creating one new user
-// auth register
-usersRouter.post(
-  "/",
-  mwGetUserBy.bodyEmail,
-  mwMustTheUserExist(false),
-  usersController.register
-)
+/*
+  create new user (register)
+  is in authRouter
+ */
 
 // Updating profile data of a user, only password for now
 usersRouter.put(

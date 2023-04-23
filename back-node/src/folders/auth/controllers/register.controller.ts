@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { jwtSigner } from "../../../lib/jwtSigner"
-import UserModel from "../UserModel"
+import UserModel from "../../users/UserModel"
 import { mailerSendConfimationLink } from "../../../mailer"
 
 export const register = async (cli: Request, ser: Response) => {
