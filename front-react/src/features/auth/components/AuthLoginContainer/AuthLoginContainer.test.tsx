@@ -30,7 +30,7 @@ test("renders a link to redirect to Register page with correct href", () => {
 test("when click on submit button, it triggers rest api for login", () => {
   return new Promise(async resolve => {
     server.use(
-      rest.post(NODE_API + "/auth", (cli, res, ctx) => {
+      rest.post(NODE_API + "/auth/login", (cli, res, ctx) => {
         resolve(undefined)
 
         return res(ctx.status(201))
