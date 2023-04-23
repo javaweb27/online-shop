@@ -1,7 +1,10 @@
 import { fetchJs } from "../../../lib/fetchJs"
 
 export const authRegister = async (data: { email: string; password: string }) => {
-  const res = await fetchJs("/users", { method: "POST", body: JSON.stringify(data) })
+  const res = await fetchJs("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
 
   if (!res.ok) {
     throw res
