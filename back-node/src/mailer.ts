@@ -17,7 +17,13 @@ mailerTransporter.verify().then(() => {
   console.log("Ready for sending emails")
 })
 
-export function mailerSendConfimationLink({ userEmail, userConfirmationToken }) {
+export function mailerSendConfimationLink({
+  userEmail,
+  userConfirmationToken,
+}: {
+  userEmail: string
+  userConfirmationToken: string
+}) {
   const CONFIMATION_LINK = `${CORS_URL}/online-shop/#/confirm-account/${userConfirmationToken}`
 
   mailerTransporter.sendMail({
