@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer"
-import { CORS_URL } from "./config"
+import { CORS_URL, MAILER_EMAIL, MAILER_PASSWORD } from "./config"
 
 // create reusable transporter object using the default SMTP transport
 const mailerTransporter = nodemailer.createTransport({
@@ -7,9 +7,8 @@ const mailerTransporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    // both for env vars
-    user: "devjavicont@gmail.com", // generated ethereal user
-    pass: "pikyoogxdfpsmqeh", // generated ethereal password
+    user: MAILER_EMAIL, // generated ethereal user
+    pass: MAILER_PASSWORD, // generated ethereal password
   },
 })
 
