@@ -6,10 +6,6 @@ export const authRegister = async (data: { email: string; password: string }) =>
     body: JSON.stringify(data),
   })
 
-  if (!res.ok) {
-    throw res
-  }
-
   const userData = await res.json()
 
   // user data is no used

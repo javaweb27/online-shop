@@ -27,10 +27,6 @@ export const getProducts = async (
     method: "GET",
   })
 
-  if (!res.ok) {
-    throw res
-  }
-
   const json = (await res.json()) as ProductsPaginationApiRes
 
   return { res, json }

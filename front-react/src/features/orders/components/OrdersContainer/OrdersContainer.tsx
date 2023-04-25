@@ -25,15 +25,17 @@ function Content() {
     return <div>loading orders</div>
   }
 
-  if (ordersQuery.isError) {
-    const { error } = ordersQuery
-    const status = (error as any).res.status
+  if (ordersQuery.error instanceof Response) {
+    const { status } = ordersQuery.error
+
     if (status === 409) {
       dispatch(AuthActions.logOut())
       return null
-    } else {
-      return <div>something went wrong</div>
     }
+  }
+
+  if (ordersQuery.isError) {
+    return <div>something went wrong</div>
   }
 
   if (ordersQuery.data.json.orders.length === 0) {

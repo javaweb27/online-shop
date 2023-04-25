@@ -28,8 +28,8 @@ export const CartTotals = () => {
   let isBalanceRequiredError = false
   let isAuthError = !loggedIn
 
-  if (orderMutation.isError) {
-    const { status } = (orderMutation.error as any).res
+  if (orderMutation.error instanceof Response) {
+    const { status } = orderMutation.error
 
     if (status === 409 || status === 401 || !loggedIn) {
       isAuthError = true

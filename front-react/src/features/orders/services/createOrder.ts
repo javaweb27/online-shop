@@ -14,16 +14,12 @@ export const createOrder = async (idsWithQtys: OrdersApiCli["productsObjIds"]) =
     street: "avenue always alive",
   } satisfies OrdersApiCli
 
+  //409 status means that the user does not exist
   const res = await fetchJs("/orders", {
     method: "POST",
     body: JSON.stringify(dataToSend),
     headers: { authorization: "jwt" },
   })
-
-  if (!res.ok) {
-    //409 status means that the user does not exist
-    throw { res }
-  }
 
   // authToken is not being used
   // const json = (await res.json()) as { authToken: string }

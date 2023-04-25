@@ -17,15 +17,11 @@ export interface OrdersApiRes {
 }
 
 export const getOrders = async () => {
+  //409 status means that the user does not exist
   const res = await fetchJs("/orders", {
     method: "GET",
     headers: { authorization: "jwt" },
   })
-
-  if (!res.ok) {
-    //409 status means that the user does not exist
-    throw { res }
-  }
 
   const json = (await res.json()) as OrdersApiRes
 

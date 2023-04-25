@@ -12,9 +12,12 @@ interface Request extends Omit<RequestInit, "method" | "headers"> {
  * already includes content as json in headers
  *
  * /api is necessary in endpoint
+ *
+ * throws an exception with the "Response" when
+ * "response.ok" is "false"
  */
-export function fetchJs(endpoint: `/${string}`, { headers, ...init }: Request) {
-  return fetch(NODE_API + endpoint, {
+export async function fetchJs(endpoint: `/${string}`, { headers, ...init }: Request) {
+  const res = await fetch(NODE_API + endpoint, {
     ...init,
     headers: {
       ...headers,
@@ -22,6 +25,12 @@ export function fetchJs(endpoint: `/${string}`, { headers, ...init }: Request) {
       "authorization": headers?.authorization ? getAuthJwt() : "",
     },
   })
+
+  if (res.ok == false) {
+    throw res
+  }
+
+  return res
 }
 
 function getAuthJwt() {

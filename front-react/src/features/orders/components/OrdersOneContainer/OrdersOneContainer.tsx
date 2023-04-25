@@ -19,10 +19,8 @@ export const OrdersOneContainer = () => {
     return <p>Loading Order</p>
   }
 
-  if (orderQuery.isError) {
-    const {
-      res: { status },
-    } = orderQuery.error as any
+  if (orderQuery.error instanceof Response) {
+    const { status } = orderQuery.error
 
     if (status === 409) {
       // user does not exist
@@ -30,9 +28,11 @@ export const OrdersOneContainer = () => {
       return null
     } else if (status === 404) {
       return <p>This order does not exist</p>
-    } else {
-      return <p>Something went wrong</p>
     }
+  }
+
+  if (orderQuery.isError) {
+    return <p>Something went wrong</p>
   }
 
   return (

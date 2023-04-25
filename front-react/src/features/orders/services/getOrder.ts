@@ -13,15 +13,11 @@ interface OrderProductApiRes extends ProductApiRes {
 }
 
 export const getOrder = async (orderId: string) => {
+  //409 status means that the user does not exist
   const res = await fetchJs(`/orders/${orderId}`, {
     method: "GET",
     headers: { authorization: "jwt" },
   })
-
-  if (!res.ok) {
-    //409 status means that the user does not exist
-    throw { res }
-  }
 
   const json = (await res.json()) as OrdersOneApiRes
 
