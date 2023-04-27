@@ -78,7 +78,7 @@ function Dishes() {
                 className="absolute w-full h-full object-cover transform-gpu group-hover:scale-110 transition"
               />
               <button
-                className="relative capitalize pt-40 z-10 w-full h-full bg-gradient-to-t from-black/70 to-transparent hover:from-black/60"
+                className="relative capitalize pt-40 z-10 w-full h-full bg-gradient-to-t from-black/70 to-transparent hover:from-black/60 text-white"
                 onClick={() => changeCateogry(data.category)}
               >
                 {data.category}
