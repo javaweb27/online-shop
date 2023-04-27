@@ -2,9 +2,18 @@
   /* max-width: 1280px; */
   min-height: 100vh; /* fallback */
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
   /* margin: 0 auto;
   padding: 2rem;
   text-align: center; */
+}
+
+main {
+  align-self: center;
+  width: min(100%, 80rem);
+  padding: 1rem;
+  margin-bottom: auto;
 }
 /* 
 .logo {

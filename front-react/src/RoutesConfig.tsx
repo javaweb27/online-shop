@@ -6,7 +6,7 @@ export const RoutesConfig = () => {
   return (
     <HashRouter>
       <AppLayout>
-        <main className="max-w-7xl p-4 flex-grow self-center">
+        <main>
           <RoutesPages />
         </main>
       </AppLayout>
