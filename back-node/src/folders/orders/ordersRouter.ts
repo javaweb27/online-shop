@@ -3,6 +3,8 @@ import mwGetUserBy from "../../middlewares/mwGetUserBy"
 import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
 import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
 import * as ordersController from "./controllers"
+import { newOrderRequestBodyMiddleware } from "./middlewares/newOrderRequestBody.middleware"
+import { productsToBeOrderedMiddleware } from "./middlewares/productsToBeOrdered.middleware"
 
 const ordersRouter = Router()
 
@@ -30,6 +32,8 @@ ordersRouter.post(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true, 409),
+  ...newOrderRequestBodyMiddleware,
+  productsToBeOrderedMiddleware,
   ordersController.createOne
 )
 

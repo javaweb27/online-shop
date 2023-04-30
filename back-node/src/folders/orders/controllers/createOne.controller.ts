@@ -1,48 +1,60 @@
 import { Request, Response } from "express"
-import dbGetProductsToBeOrdered from "../../../lib/dbGetProductsToBeOrdered"
+// import dbGetProductsToBeOrdered from "../../../lib/dbGetProductsToBeOrdered"
 import OrderModel from "../OrderModel"
+// import { matchedData, validationResult } from "express-validator"
+import { Types } from "mongoose"
+
+export type OrdersCreateOneResponse = {
+  locals: {
+    /** validated data */
+    requestOrder: {
+      street: string
+      productsObjIds: { _id: string; qty: number }[]
+    }
+    /** products to save in db (OrdersModel) */
+    productsToBeOrdered: { _id: Types.ObjectId; quantity: number }[]
+    orderTotalPrice: number
+  }
+}
 
 /**
  * create one order for a user
  */
-export const createOne = async (cli: Request, res: Response) => {
+export const createOne = async (
+  cli: Request,
+  res: Response<any, OrdersCreateOneResponse["locals"]>
+) => {
   console.log(`GET /orders - create one order for a user`)
+
+  const { productsToBeOrdered, orderTotalPrice } = res.locals
+
+  // res.json({ productsToBeOrdered, orderTotalPrice })
 
   // @ts-ignore
   const User = cli.mwUser
 
-  // "productsObjIds" must be exist and it must have 1 or more IDs
-  if (!(cli.body.productsObjIds?.length > 0)) {
-    return res
-      .status(400)
-      .json({ message: "Cannot order prodcuts, 1 or more items are required" })
+  if (User.balance < orderTotalPrice) {
+    res.status(409).json({ message: "balance is not enough" })
+    return
   }
-
-  const { productsToBeOrdered, totalPrice } = await dbGetProductsToBeOrdered(
-    cli.body.productsObjIds
-  )
-
-  User.balance -= totalPrice
 
   const newOrder = new OrderModel({
     // auto object _id for order
     // auto createdAt date for order
     productsObjIds: productsToBeOrdered,
-    street: cli.body.street,
+    street: res.locals.requestOrder.street,
     userId: User._id,
   })
 
   try {
-    // error may come from balance, less than 0
-    await User.save()
-    await newOrder.save()
+    await Promise.all([User.save(), newOrder.save()])
 
     res.status(201).json({ message: "order created at " + newOrder.createdAt })
   } catch (error: any) {
     console.log(error)
 
-    res.status(403).json({
-      message: error.message,
+    res.status(500).json({
+      message: "error when creating a new order",
     })
   }
 }
