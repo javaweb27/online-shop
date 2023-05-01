@@ -24,7 +24,7 @@ export const createOne = async (
   cli: Request,
   res: Response<any, OrdersCreateOneResponse["locals"]>
 ) => {
-  console.log(`\nGET /orders - create one order for a user`)
+  console.log(`\nPOST /orders - create one order for a user`)
 
   const { productsToBeOrdered, orderTotalPrice } = res.locals
 
