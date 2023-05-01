@@ -31,7 +31,7 @@ ordersRouter.post(
   "/",
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
-  mwMustTheUserExist(true, 409),
+  mwMustTheUserExist(true, 401),
   ...newOrderRequestBodyMiddleware,
   productsToBeOrderedMiddleware,
   ordersController.createOne
