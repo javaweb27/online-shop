@@ -31,14 +31,19 @@ export const CartTotals = () => {
   if (orderMutation.error instanceof Response) {
     const { status } = orderMutation.error
 
-    if (status === 409 || status === 401 || !loggedIn) {
+    if (status === 401) {
       isAuthError = true
       dispatch(AuthActions.logOut())
     } else if (status === 400) {
       isBadRequestError = true
-    } else if (status === 403) {
+    } else if (status === 409) {
       isBalanceRequiredError = true
-    } else {
+    }
+    //  else if (status === 404) {
+    // 404 = all selected products (_id's) to be ordered don't exist.
+    // this app assumes that all products always exist.
+    // }
+    else {
       isUnknownError = true
     }
   }
