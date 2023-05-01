@@ -24,7 +24,7 @@ export const createOne = async (
   cli: Request,
   res: Response<any, OrdersCreateOneResponse["locals"]>
 ) => {
-  console.log(`GET /orders - create one order for a user`)
+  console.log(`\nGET /orders - create one order for a user`)
 
   const { productsToBeOrdered, orderTotalPrice } = res.locals
 
@@ -37,6 +37,8 @@ export const createOne = async (
     res.status(409).json({ message: "balance is not enough" })
     return
   }
+
+  User.balance -= orderTotalPrice
 
   const newOrder = new OrderModel({
     // auto object _id for order
