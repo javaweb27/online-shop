@@ -48,6 +48,8 @@ export const CartTotals = () => {
     }
   }
 
+  const isOrderCreated = orderMutation.data?.res.status === 201
+
   const isBtnDisabled = cart.items.length === 0 || !loggedIn
 
   return (
@@ -74,6 +76,9 @@ export const CartTotals = () => {
         {isBadRequestError && <p>Cart must contain at least 1 product</p>}
         {isBalanceRequiredError && <p>You don't have enough balance</p>}
         {isAuthError && <p>Log in to order</p>}
+      </div>
+      <div className="text-green-700">
+        {isOrderCreated && <p>Your products were successfully ordered.</p>}
       </div>
     </div>
   )
