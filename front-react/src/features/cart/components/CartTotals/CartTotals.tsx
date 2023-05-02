@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query"
-import { useMemo } from "react"
 import { useAppDispatch, useAppSelector } from "../../../../hooks/reduxHooks"
 import { AuthActions } from "../../../auth/redux-store-slices/auth.slice"
 import { createOrder } from "../../../orders/services/createOrder"
+import { useCartItemsTotals } from "../../hooks/useCartItemsTotals"
 
 export const CartTotals = () => {
   const cart = useAppSelector(s => s.cart)
@@ -11,17 +11,7 @@ export const CartTotals = () => {
 
   const orderMutation = useMutation({ mutationKey: ["order"], mutationFn: createOrder })
 
-  const { totalPrice, totalQty } = useMemo(() => {
-    let totalPrice = 0
-    let totalQty = 0
-
-    for (const item of cart.items) {
-      totalQty += item.qty
-      totalPrice += item.qty * item.price
-    }
-
-    return { totalPrice, totalQty }
-  }, [cart.items])
+  const { totalPrice, totalQty } = useCartItemsTotals()
 
   let isUnknownError = false
   let isBadRequestError = false
