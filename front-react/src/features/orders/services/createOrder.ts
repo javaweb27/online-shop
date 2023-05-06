@@ -25,7 +25,5 @@ export const createOrder = async (idsWithQtys: OrdersApiCli["productsObjIds"]) =
     headers: { authorization: "jwt" },
   })
 
-  return {
-    res,
-  }
+  return res
 }
