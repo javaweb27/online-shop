@@ -19,15 +19,26 @@ export const getOne = async (cli: Request, res: Response) => {
 
     if (!orderFound) return res.status(404).json({ message: "Cannot find order" })
 
-    const orderedProducts = await ProductModel.find({
-      _id: { $in: orderFound.productsObjIds },
+    const orderedProducts = await ProductModel.find(
+      {
+        _id: { $in: orderFound.productsObjIds },
+      },
+      { __v: 0 }
+    )
+
+    const orderedProductsWithQuantity = orderedProducts.map(item => {
+      const { quantity } = orderFound.productsObjIds.find(
+        orderItem => item._id.toString() === orderItem._id.toString()
+      )!
+
+      return { ...item.toObject(), quantity }
     })
 
     const orderData = {
       _id: orderFound._id,
       street: orderFound.street,
       createdAt: orderFound.createdAt,
-      products: orderedProducts,
+      products: orderedProductsWithQuantity,
     }
 
     res.json(orderData)
