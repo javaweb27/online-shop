@@ -68,7 +68,7 @@ Open [http://localhost:4173/online-shop/](http://localhost:4173/online-shop/) to
 ### `pnpm test`
 
 Runs vitest with a GUI.\
-Open [http://localhost:51204/__vitest__/](http://localhost:51204/__vitest__/) to view it in the browser.
+Open [http://localhost:51204/\_\_vitest\_\_/](http://localhost:51204/__vitest__/) to view it in the browser.
 
 ### `pnpm lint`
 
