@@ -45,18 +45,14 @@ In the project directory, you can run:
 Runs the app in the development mode.
 The base URL of the API is [http://localhost:3060/](http://localhost:3060/).
 
-The server will reload if you make edits.
-
-### `pnpm build`
-
-Builds the app for production to the `dist` folder.
+The server will reload if you make edits (and the console will be cleared).
 
 ### `pnpm start`
 
-Runs the app that was built to the `dist` folder.\
-`pnpm build` is must be ran previously.
-
+Runs the app in the production mode.
 The base URL of the API is [http://localhost:3060/](http://localhost:3060/).
+
+With `tsx` there is no need to have a `build` command to compile the app and then run the compiled app.
 
 ### `pnpm lint`
 

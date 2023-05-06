@@ -8,9 +8,8 @@
   "main": "",
   "type": "commonjs",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only ./src/main.ts",
-    "build": "tsc",
-    "start": "NODE_ENV=production node dist/main.js",
+    "dev": "tsx watch ./src/main.ts",
+    "start": "NODE_ENV=production tsx ./src/main.ts",
     "lint": "eslint --ext .js,.ts,jsx,tsx .",
     "format": "prettier --write \"**/*.+(js|ts|jsx|tsx)\""
   },
@@ -35,6 +34,7 @@
     "eslint-config-prettier": "^8.6.0",
     "prettier": "^2.8.4",
     "ts-node-dev": "^2.0.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.0.4"
   }
 }
