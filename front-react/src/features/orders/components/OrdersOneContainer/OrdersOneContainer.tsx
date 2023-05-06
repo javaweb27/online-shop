@@ -1,19 +1,15 @@
-import { useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../../../hooks/reduxHooks"
 import { AuthActions } from "../../../auth/redux-store-slices/auth.slice"
-import { getOrder } from "../../services/getOrder"
 import { OrderDetails } from "../OrderDetails/OrderDetails"
 import { OrderProductsList } from "../OrderProductsList"
+import { useGetOrder } from "../../hooks/useGetOrder"
 
 export const OrdersOneContainer = () => {
   const dispatch = useAppDispatch()
   const params = useParams<{ id: string }>()
 
-  const orderQuery = useQuery({
-    queryKey: ["orders", params.id],
-    queryFn: async () => getOrder(params.id!),
-  })
+  const orderQuery = useGetOrder({ orderId: params.id! })
 
   if (orderQuery.isLoading) {
     return <p>Loading Order</p>

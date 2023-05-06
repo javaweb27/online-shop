@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query"
 import { useAppDispatch } from "../../../../hooks/reduxHooks"
 import { AuthActions } from "../../../auth/redux-store-slices/auth.slice"
-import { getOrders } from "../../services/getOrders"
 import { OrdersList } from "../OrdersList"
+import { useGetOrders } from "../../hooks/useGetOrders"
 
 export const OrdersContainer = () => {
   return (
@@ -16,11 +15,7 @@ export const OrdersContainer = () => {
 function Content() {
   const dispatch = useAppDispatch()
 
-  const ordersQuery = useQuery({
-    queryKey: ["orders"],
-    queryFn: getOrders,
-  })
-
+  const ordersQuery = useGetOrders()
   if (ordersQuery.isLoading) {
     return <div>loading orders</div>
   }
