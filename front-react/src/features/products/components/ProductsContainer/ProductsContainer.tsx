@@ -1,20 +1,15 @@
-import { useQuery } from "@tanstack/react-query"
 import { useAppSelector } from "../../../../hooks/reduxHooks"
-import { getProducts } from "../../services/getProducts"
 import { ProductsList } from "../ProductsList"
 import { ProductsCatBtns } from "../ProductsCatBtns"
 import { ProductsPageBtns } from "../ProductsPageBtns"
+import { useGetProducts } from "../../hooks/useGetProducts"
 
 export const ProductsContainer = () => {
   const { category: currentCategory, page: currentPage } = useAppSelector(s => s.products)
 
-  const { data, isLoading, isError, isFetching } = useQuery({
-    queryKey: ["products", { category: currentCategory, page: currentPage }] as const,
-    queryFn: ({ queryKey }) => {
-      const { page, category } = queryKey[1]
-      return getProducts(category, page)
-    },
-    refetchOnWindowFocus: false,
+  const { data, isLoading, isError, isFetching } = useGetProducts({
+    category: currentCategory,
+    page: currentPage,
   })
 
   if (isLoading) {
