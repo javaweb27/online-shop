@@ -23,4 +23,7 @@ authRouter.post(
 // auth - confirm email of a user
 authRouter.post("/confirm-email", authController.confirmEmail)
 
+// auth - resend-email-confirmation for a user
+authRouter.post("/resend-email-confirmation", authController.resendEmailConfirmation)
+
 export default authRouter
