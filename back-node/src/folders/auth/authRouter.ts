@@ -20,4 +20,7 @@ authRouter.post(
   authController.register
 )
 
+// auth - confirm email of a user
+authRouter.post("/confirm-email", authController.confirmEmail)
+
 export default authRouter
