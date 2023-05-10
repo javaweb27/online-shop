@@ -5,6 +5,7 @@ import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
 import * as ordersController from "./controllers"
 import { newOrderRequestBodyMiddleware } from "./middlewares/newOrderRequestBody.middleware"
 import { productsToBeOrderedMiddleware } from "./middlewares/productsToBeOrdered.middleware"
+import { userEmailMustBeConfirmedMiddleware } from "./middlewares/userEmailMustBeConfirmed.middleware"
 
 const ordersRouter = Router()
 
@@ -32,6 +33,7 @@ ordersRouter.post(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true, 401),
+  userEmailMustBeConfirmedMiddleware,
   ...newOrderRequestBodyMiddleware,
   productsToBeOrderedMiddleware,
   ordersController.createOne
