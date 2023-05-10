@@ -1,10 +1,13 @@
 import app from "./app"
+import { checkJwtValues } from "./checkJwtValues"
 import { PORT } from "./config"
 import { connectMongodb } from "./connectMongodb"
 import authRouter from "./folders/auth/authRouter"
 import ordersRouter from "./folders/orders/ordersRouter"
 import productsRouter from "./folders/products/productsRouter"
 import usersRouter from "./folders/users/usersRouter"
+
+checkJwtValues()
 
 connectMongodb()
 
