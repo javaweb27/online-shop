@@ -34,41 +34,50 @@ export const confirmEmail = async (cli: Request, res: Response) => {
   // token is valid
   console.log("\nToken is valid, finding user by id...")
 
+  let User
+
   try {
-    const User = await UserModel.findById(decodedToken.id)
+    User = await UserModel.findById(decodedToken.id)
+  } catch (error) {
+    console.error("\nerror when finding an user to confirm the email")
+    console.error(error)
 
-    if (!User) {
-      console.log("Couldn't confirm email, userId doesn't exist")
+    res.status(500).json({ message: "error, something went wrong" })
+  }
 
-      res.status(401).json({ message: "invalid token" })
-      return
-    }
+  if (!User) {
+    console.log("Couldn't confirm email, userId doesn't exist")
 
-    if (User.isEmailConfirmed) {
-      console.log("This email is already confirmed")
+    res.status(401).json({ message: "invalid token" })
+    return
+  }
 
-      res.sendStatus(204)
-      return
-    }
-
-    if (User.confirmationToken !== token) {
-      console.log("Couldn't confirm email, the token is different")
-
-      res.status(401).json({ message: "invalid token" })
-      return
-    }
-
-    console.log("user is being updated...")
-
-    User.isEmailConfirmed = true
-    User.confirmationToken = ""
-
-    await User.save()
-    console.log("updated, email is confirmed")
+  if (User.isEmailConfirmed) {
+    console.log("This email is already confirmed")
 
     res.sendStatus(204)
+    return
+  }
+
+  if (User.confirmationToken !== token) {
+    console.log("Couldn't confirm email, the token is different")
+
+    res.status(401).json({ message: "invalid token" })
+    return
+  }
+
+  console.log("user found, updating user...")
+
+  User.isEmailConfirmed = true
+  User.confirmationToken = "true"
+
+  try {
+    await User.save()
+
+    console.log("updated, email confirmed successfully")
+    res.sendStatus(204)
   } catch (error) {
-    console.error("\nerror when finding or saving an user to confirm the email")
+    console.error("\nerror when saving an user to confirm the email")
     console.error(error)
 
     res.status(500).json({ message: "error, something went wrong" })
