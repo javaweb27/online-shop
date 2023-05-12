@@ -8,6 +8,7 @@ import { OrdersOne } from "./pages/OrdersOne"
 import Products from "./pages/Products"
 import Profile from "./pages/Profile"
 import { AsPrivate, AsPublic } from "./pagesAccess"
+import AccountRegistered from "./pages/AccountRegistered"
 
 const RoutesPages = () => {
   return (
@@ -15,6 +16,7 @@ const RoutesPages = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<AsPublic page={AuthLogin} />} />
       <Route path="/register" element={<AsPublic page={AuthRegister} />} />
+      <Route path="/account-registered" element={<AccountRegistered />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/products">
