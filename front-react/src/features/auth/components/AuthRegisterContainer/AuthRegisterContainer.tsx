@@ -12,7 +12,7 @@ export const AuthRegisterContainer = () => {
   const mutation = useMutation({
     mutationFn: authRegister,
     onSuccess() {
-      navigate("/login")
+      navigate("/account-registered")
     },
     onError: error => {
       if (!(error instanceof Response) || !(error.status === 403)) {
