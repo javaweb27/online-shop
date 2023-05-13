@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react"
+import user_event from "@testing-library/user-event"
 import { render } from "@testing-library/react"
 import type { RenderOptions } from "@testing-library/react"
 import type { PreloadedState } from "@reduxjs/toolkit"
@@ -28,6 +29,8 @@ export function renderWithProvs(
   }: ExtendedRenderOptions = {}
   // queryClientConfig?: QueryClientConfig
 ) {
+  const userEvent = user_event.setup()
+
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   })
@@ -41,5 +44,9 @@ export function renderWithProvs(
       </QueryClientProvider>
     )
   }
-  return { store, ...render(ui, { wrapper: Container, ...renderOptions }) }
+  return {
+    store,
+    userEvent,
+    ...render(ui, { wrapper: Container, ...renderOptions }),
+  }
 }
