@@ -10,6 +10,7 @@ import Profile from "./pages/Profile"
 import { AsPrivate, AsPublic } from "./pagesAccess"
 import AccountRegistered from "./pages/AccountRegistered"
 import AuthConfirmAccount from "./pages/AuthConfirmAccount"
+import AuthReSendEmail from "./pages/AuthReSendEmail"
 
 const RoutesPages = () => {
   return (
@@ -19,6 +20,7 @@ const RoutesPages = () => {
       <Route path="/register" element={<AsPublic page={AuthRegister} />} />
       <Route path="/account-registered" element={<AccountRegistered />} />
       <Route path="/confirm-account/:token" element={<AuthConfirmAccount />} />
+      <Route path="/re-send-email" element={<AuthReSendEmail />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/products">
