@@ -10,12 +10,14 @@ interface IUser {
   balance: number
   isEmailConfirmed: boolean
   confirmationToken: string
+  sentConfirmationTokenDate: number
 }
 
 interface IUserMethods {
   createAuthToken(callbackfunc: SignCallback): void
   comparePassword(password: string): Promise<boolean>
   encryptPassword(password: string): Promise<string>
+  isTimeToSendEmail(): boolean
 }
 
 type UserModel = Model<IUser, Record<string, never>, IUserMethods>
@@ -49,6 +51,10 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     required: true,
   },
+  sentConfirmationTokenDate: {
+    type: Number,
+    required: true,
+  },
 })
 
 UserSchema.methods.createAuthToken = async function () {
@@ -72,6 +78,14 @@ UserSchema.methods.encryptPassword = async function (password: string) {
   }
 
   return await bcrypt.hash(password, 10)
+}
+
+UserSchema.methods.isTimeToSendEmail = function () {
+  const lastDate = this.sentConfirmationTokenDate
+
+  const difference = Date.now() - lastDate
+
+  return difference / 1000 >= 60
 }
 
 export default model("users", UserSchema)

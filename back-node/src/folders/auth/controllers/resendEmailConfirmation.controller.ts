@@ -12,6 +12,8 @@ import { mailerSendConfimationLink } from "../../../mailer"
  *
  * 401: there is no account with the email
  *
+ * 409: email can be sent only every 60 seconds
+ *
  * 500: server/db error
  */
 export const resendEmailConfirmation = async (cli: Request, res: Response) => {
@@ -37,11 +39,19 @@ export const resendEmailConfirmation = async (cli: Request, res: Response) => {
       return
     }
 
+    if (false === User.isTimeToSendEmail()) {
+      console.log("Couldn't re-send email, email can be sent only every 60 seconds")
+
+      res.status(409).json({ message: "email can be sent only every 60 seconds" })
+      return
+    }
+
     const confirmationToken = await jwtConfirmEmailSigner(User._id.toString())
 
     console.log("updating confirmationToken...")
 
     User.confirmationToken = confirmationToken
+    User.sentConfirmationTokenDate = Date.now()
 
     await User.save()
 

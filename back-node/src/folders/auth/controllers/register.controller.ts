@@ -13,6 +13,8 @@ export const register = async (cli: Request, res: Response) => {
       cli.body.password
     )
 
+    const SECONDS_60 = 1000 * 60
+
     const user = new UserModel({
       email: cli.body.email,
       password: encryptedPassword,
@@ -20,6 +22,7 @@ export const register = async (cli: Request, res: Response) => {
       orders: [],
       isEmailConfirmed: false,
       confirmationToken: "replace-before-saving",
+      sentConfirmationTokenDate: Date.now() - SECONDS_60,
     })
 
     try {
