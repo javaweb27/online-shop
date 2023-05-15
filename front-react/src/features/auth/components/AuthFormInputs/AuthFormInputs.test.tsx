@@ -16,16 +16,16 @@ describe("on inputs with empty values", () => {
     })
   })
 
-  test("form inputs can change their values", () => {
+  test("form inputs can change their values", async () => {
     const inputValue = "user@email.123"
 
-    AuthFormInputsData.forEach(async ([__inputProps, labelText]) => {
+    for (const [__inputProps, labelText] of AuthFormInputsData) {
       const inputElm = screen.getByLabelText<HTMLInputElement>(labelText)
 
       await userEvent.type(inputElm, inputValue)
 
       expect(inputElm.value).toBe(inputValue)
-    })
+    }
   })
 
   test("renders button with icons that hides and shows the password", () => {
