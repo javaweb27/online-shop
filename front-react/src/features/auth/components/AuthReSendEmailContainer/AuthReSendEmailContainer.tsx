@@ -1,13 +1,14 @@
 import { useRef } from "react"
 import { regex } from "../../../../helps/regex"
-import { useAuthReSendEmail } from "../../hooks/useAuthReSendEmail"
+import { useCtxAuthReSendEmail } from "../../context-state/AuthReSendEmailContext"
+import { AuthReSendEmailMessages } from "../AuthReSendEmailMessages"
 
 export const AuthReSendEmailContainer = () => {
   const emailInputRef = useRef<null | HTMLInputElement>(null)
   const errorMsgRef = useRef<null | HTMLParagraphElement>(null)
   const submitBtnRef = useRef<null | HTMLButtonElement>(null)
 
-  const mutation = useAuthReSendEmail()
+  const mutation = useCtxAuthReSendEmail()
 
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -56,25 +57,7 @@ export const AuthReSendEmailContainer = () => {
         </button>
       </form>
       <br />
-      <p>
-        {mutation.isSuccess &&
-          (mutation.data.status === 200
-            ? "Your email was already confirmed"
-            : mutation.data.status === 201
-            ? "We sent you an email with the instructions to confirm your account, check your spam if you can't find it"
-            : null)}
-        {mutation.isError &&
-          mutation.error instanceof Response &&
-          (mutation.error.status === 401
-            ? "There is no account with this email"
-            : mutation.error.status === 500
-            ? "Something went wrong, try it again"
-            : null)}
-
-        {mutation.isError && !(mutation.error instanceof Response)
-          ? "Something went wrong, try it again"
-          : null}
-      </p>
+      <AuthReSendEmailMessages />
       <p>
         Please use the last email we send you, because the previous ones will be invalid
       </p>

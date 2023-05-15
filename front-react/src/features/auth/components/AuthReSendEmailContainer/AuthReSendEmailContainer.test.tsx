@@ -5,6 +5,8 @@ import {
   UseAuthReSendEmailReturn,
   useAuthReSendEmail,
 } from "../../hooks/useAuthReSendEmail"
+import { AuthReSendEmailProvider } from "../../context-state/AuthReSendEmailContext"
+import { AuthReSendEmailMessages } from "../AuthReSendEmailMessages"
 
 vi.mock("../../hooks/useAuthReSendEmail", () => {
   //
@@ -20,7 +22,11 @@ function setMockedHookOnce(value: Partial<UseAuthReSendEmailReturn>) {
 }
 
 test("renders a message, user should use always the last sent email", () => {
-  renderWithProvs(<AuthReSendEmailContainer />)
+  renderWithProvs(
+    <AuthReSendEmailProvider>
+      <AuthReSendEmailContainer />
+    </AuthReSendEmailProvider>
+  )
 
   screen.getByText(
     /Please use the last email we send you, because the previous ones will be invalid/i
@@ -28,7 +34,11 @@ test("renders a message, user should use always the last sent email", () => {
 })
 
 test("renders title", () => {
-  renderWithProvs(<AuthReSendEmailContainer />)
+  renderWithProvs(
+    <AuthReSendEmailProvider>
+      <AuthReSendEmailContainer />
+    </AuthReSendEmailProvider>
+  )
 
   screen.getByText(/Enter your email address/i, { selector: "h2" })
 })
@@ -36,34 +46,54 @@ test("renders title", () => {
 describe("on initial render", () => {
   //
   test("email input is empty", () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
 
     screen.getByPlaceholderText("your_email@example.com")
   })
   //
   test("email input is type email", () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const emailInputElm = screen.getByPlaceholderText("your_email@example.com")
 
     expect(emailInputElm).toHaveAttribute("type", "email")
   })
 
   test("error message of invalid email format has the invisible class of tailwindcss", async () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const errorMsg = screen.getByText(/Enter a valid email format/i)
 
     expect(errorMsg.classList.contains("invisible")).toBe(true)
   })
 
   test("response message is empty", () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const responseMsgElm = screen.getByText("", { selector: "p" })
 
     expect(responseMsgElm).toBeInTheDocument()
   })
 
   test("submit btn is disabled", () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const submitBtn = screen.getByText(/send email/i, {
       selector: "button",
     })
@@ -72,7 +102,11 @@ describe("on initial render", () => {
   })
 
   test("submit btn is type submit", () => {
-    renderWithProvs(<AuthReSendEmailContainer />)
+    renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const submitBtn = screen.getByText(/send email/i, {
       selector: "button",
     })
@@ -83,21 +117,23 @@ describe("on initial render", () => {
 
 describe("after entering a valid value to the email input", () => {
   beforeEach(async () => {
-    const { userEvent } = renderWithProvs(<AuthReSendEmailContainer />)
+    const { userEvent } = renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const emailInputElm = screen.getByPlaceholderText("your_email@example.com")
 
     await userEvent.type(emailInputElm, "user@example.com")
   })
 
   test("error message of invalid email format has still the invisible class of tailwindcss", () => {
-    // renderWithProvs(<AuthReSendEmailContainer />)
     const errorMsg = screen.getByText(/Enter a valid email format/i)
 
     expect(errorMsg.classList.contains("invisible")).toBe(true)
   })
 
   test("submit btn becomes enabled", () => {
-    // renderWithProvs(<AuthReSendEmailContainer />)
     const submitBtn = screen.getByText(/send email/i, {
       selector: "button",
     })
@@ -108,21 +144,23 @@ describe("after entering a valid value to the email input", () => {
 
 describe("after entering an invalid value to the email input", () => {
   beforeEach(async () => {
-    const { userEvent } = renderWithProvs(<AuthReSendEmailContainer />)
+    const { userEvent } = renderWithProvs(
+      <AuthReSendEmailProvider>
+        <AuthReSendEmailContainer />
+      </AuthReSendEmailProvider>
+    )
     const emailInputElm = screen.getByPlaceholderText("your_email@example.com")
 
     await userEvent.type(emailInputElm, "@.")
   })
 
   test("error message of invalid email format doesn't have the invisible class of tailwindcss", () => {
-    // renderWithProvs(<AuthReSendEmailContainer />)
     const errorMsg = screen.getByText(/Enter a valid email format/i)
 
     expect(errorMsg.classList.contains("invisible")).toBe(false)
   })
 
   test("submit btn becomes disabled", () => {
-    // renderWithProvs(<AuthReSendEmailContainer />)
     const submitBtn = screen.getByText(/send email/i, {
       selector: "button",
     })
@@ -137,7 +175,11 @@ test("when user clicks the submit button mutate fn is called with the value of t
   const mockedMutate = vi.fn()
   setMockedHookOnce({ mutate: mockedMutate })
 
-  const { userEvent } = renderWithProvs(<AuthReSendEmailContainer />)
+  const { userEvent } = renderWithProvs(
+    <AuthReSendEmailProvider>
+      <AuthReSendEmailContainer />
+    </AuthReSendEmailProvider>
+  )
 
   const submitBtn = screen.getByText<HTMLButtonElement>(/send email/i, {
     selector: "button",
@@ -155,44 +197,14 @@ test("when user clicks the submit button mutate fn is called with the value of t
   expect(mockedMutate).toHaveBeenCalledWith(EMAIL_ADDRESS)
 })
 
-describe("mutation response", () => {
-  test("(on status 200) renders a message, the email is already confirmed", async () => {
-    setMockedHookOnce({ data: new Response(undefined, { status: 200 }), isSuccess: true })
+test(`render <AuthReSendEmailMessages /> (response messages)`, () => {
+  renderWithProvs(
+    <AuthReSendEmailProvider>
+      <AuthReSendEmailContainer />
+    </AuthReSendEmailProvider>
+  )
 
-    renderWithProvs(<AuthReSendEmailContainer />)
+  const msgElm = screen.getByTestId(AuthReSendEmailMessages.name)
 
-    await screen.findByText(/Your email was already confirmed/i, { selector: "p" })
-  })
-
-  test("(on status 201) renders a message, server sent the email, user should check the email, and the spam", () => {
-    setMockedHookOnce({ data: new Response(undefined, { status: 201 }), isSuccess: true })
-
-    renderWithProvs(<AuthReSendEmailContainer />)
-
-    screen.getByText(
-      /We sent you an email with the instructions to confirm your account, check your spam if you can't find it/i,
-      { selector: "p" }
-    )
-  })
-  //
-  test("(on status 401) renders a message, there is no account with the entered email", () => {
-    setMockedHookOnce({ isError: true, error: new Response(undefined, { status: 401 }) })
-    renderWithProvs(<AuthReSendEmailContainer />)
-
-    screen.getByText(/There is no account with this email/i, { selector: "p" })
-  })
-  //
-  test("(on status 500) renders a message, something went wrong, try it again", () => {
-    setMockedHookOnce({ isError: true, error: new Response(undefined, { status: 500 }) })
-    renderWithProvs(<AuthReSendEmailContainer />)
-
-    screen.getByText(/Something went wrong, try it again/i, { selector: "p" })
-  })
-  //
-  test("(on a different error) renders a message, something went wrong, try it again", () => {
-    setMockedHookOnce({ isError: true, error: null })
-    renderWithProvs(<AuthReSendEmailContainer />)
-
-    screen.getByText(/Something went wrong, try it again/i, { selector: "p" })
-  })
+  expect(msgElm.tagName).toBe("P")
 })
