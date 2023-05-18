@@ -50,7 +50,7 @@ export const AuthReSendEmailContainer = () => {
         <button
           ref={submitBtnRef}
           disabled
-          className="btn btn-primary disabled:grayscale"
+          className="btn btn-primary disabled:grayscale disabled:cursor-not-allowed"
           type="submit"
         >
           Send email
