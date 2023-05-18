@@ -1,5 +1,5 @@
 import { Matcher, screen } from "@testing-library/react"
-import { renderWithProvs } from "../../../../test-utils/renderWithProvs"
+import { renderWithProvs } from "../../../../../test-utils/renderWithProvs"
 import { AuthReSendEmailProvider } from "../../context-state/AuthReSendEmailContext"
 import {
   UseAuthReSendEmailReturn,

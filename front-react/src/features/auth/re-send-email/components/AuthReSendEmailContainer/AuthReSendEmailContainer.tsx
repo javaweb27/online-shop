@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { regex } from "../../../../helps/regex"
+import { regex } from "../../../../../helps/regex"
 import { useCtxAuthReSendEmail } from "../../context-state/AuthReSendEmailContext"
 import { AuthReSendEmailMessages } from "../AuthReSendEmailMessages"
 

@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useAuthReSendEmail } from "./useAuthReSendEmail"
 import { act, renderHook } from "@testing-library/react"
-import { server } from "../../../mocks/server"
+import { server } from "../../../../mocks/server"
 import { rest } from "msw"
-import { NODE_API } from "../../../config"
+import { NODE_API } from "../../../../config"
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false }, mutations: { retry: false } },

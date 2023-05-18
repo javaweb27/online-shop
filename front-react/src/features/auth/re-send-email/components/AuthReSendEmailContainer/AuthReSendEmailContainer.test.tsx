@@ -1,12 +1,12 @@
 import { AuthReSendEmailContainer } from "./AuthReSendEmailContainer"
-import { renderWithProvs } from "../../../../test-utils/renderWithProvs"
+import { renderWithProvs } from "../../../../../test-utils/renderWithProvs"
 import { screen } from "@testing-library/react"
+import { AuthReSendEmailProvider } from "../../context-state/AuthReSendEmailContext"
+import { AuthReSendEmailMessages } from "../AuthReSendEmailMessages"
 import {
   UseAuthReSendEmailReturn,
   useAuthReSendEmail,
 } from "../../hooks/useAuthReSendEmail"
-import { AuthReSendEmailProvider } from "../../context-state/AuthReSendEmailContext"
-import { AuthReSendEmailMessages } from "../AuthReSendEmailMessages"
 
 vi.mock("../../hooks/useAuthReSendEmail", () => {
   //

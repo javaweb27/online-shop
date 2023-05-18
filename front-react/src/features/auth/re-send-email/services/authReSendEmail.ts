@@ -1,4 +1,4 @@
-import { fetchJs } from "../../../lib/fetchJs"
+import { fetchJs } from "../../../../lib/fetchJs"
 
 export const authReSendEmail = async (email: string) => {
   const res = await fetchJs("/auth/resend-email-confirmation", {
