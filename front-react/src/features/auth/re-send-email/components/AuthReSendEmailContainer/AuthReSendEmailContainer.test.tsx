@@ -170,6 +170,23 @@ describe("after entering an invalid value to the email input", () => {
 })
 
 //
+test("when the request is loading, submit button has a loading text and is disabled", async () => {
+  setMockedHookOnce({ isLoading: true })
+
+  renderWithProvs(
+    <AuthReSendEmailProvider>
+      <AuthReSendEmailContainer />
+    </AuthReSendEmailProvider>
+  )
+
+  const submitBtn = screen.getByText<HTMLButtonElement>(/sending email.../i, {
+    selector: "button",
+  })
+
+  expect(submitBtn).toBeDisabled()
+})
+
+//
 test("when user clicks the submit button mutate fn is called with the value of the email input ", async () => {
   const EMAIL_ADDRESS = "user@example.com"
   const mockedMutate = vi.fn()

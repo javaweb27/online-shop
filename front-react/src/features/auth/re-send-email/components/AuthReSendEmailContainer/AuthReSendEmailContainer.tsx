@@ -43,11 +43,11 @@ export const AuthReSendEmailContainer = () => {
           Enter a valid email format
         </p>
         <button
-          disabled={isEmailEmpty || !isEmailFormatValid}
+          disabled={isEmailEmpty || !isEmailFormatValid || mutation.isLoading}
           className="btn btn-primary disabled:grayscale disabled:cursor-not-allowed"
           type="submit"
         >
-          Send email
+          {mutation.isLoading ? "Sending email..." : "Send email"}
         </button>
       </form>
       <br />
