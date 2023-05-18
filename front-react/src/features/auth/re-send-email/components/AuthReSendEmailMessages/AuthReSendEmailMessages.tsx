@@ -42,6 +42,8 @@ function ErrorMsg() {
       <>
         {mutation.error.status === 401
           ? "There is no account with this email"
+          : mutation.error.status === 409
+          ? "Email can be re-sent every 60 seconds only"
           : mutation.error.status === 500
           ? "Something went wrong, try it again"
           : null}

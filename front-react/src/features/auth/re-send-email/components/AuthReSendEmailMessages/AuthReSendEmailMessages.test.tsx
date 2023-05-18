@@ -67,6 +67,14 @@ test("(on status 401) renders a message, there is no account with the entered em
   getElementByText(/There is no account with this email/i)
 })
 
+test("(on status 409) renders a message, email can be re-sent every 60 seconds only", () => {
+  setMockedHookOnce({ isError: true, error: new Response(undefined, { status: 409 }) })
+
+  renderComponent()
+
+  getElementByText(/Email can be re-sent every 60 seconds only/i)
+})
+
 test("(on status 500) renders a message, something went wrong, try it again", () => {
   setMockedHookOnce({ isError: true, error: new Response(undefined, { status: 500 }) })
   renderComponent()
