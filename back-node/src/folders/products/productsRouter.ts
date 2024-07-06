@@ -1,16 +1,18 @@
 import { Router } from "express"
-import * as productsController from "./controllers/index.controller"
+import { ProductController } from "./ProductController"
 
 const productsRouter = Router()
 
+const controller = new ProductController()
+
 // Getting all products
-productsRouter.get("/", productsController.getAll)
+productsRouter.get("/", controller.getAll)
 
 // Getting one product
 // todo: user can visit the page of one product
-productsRouter.get("/:id", productsController.getOne)
+productsRouter.get("/:id", controller.getById)
 
 // Creating one new product
-productsRouter.post("/", productsController.createOne)
+productsRouter.post("/", controller.create)
 
 export default productsRouter
