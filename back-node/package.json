@@ -6,9 +6,9 @@
   },
   "private": true,
   "main": "",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "dev": "tsx watch ./src/main.ts",
+    "dev": "tsc --noEmit && tsx watch ./src/main.ts",
     "start": "NODE_ENV=production tsx ./src/main.ts",
     "lint": "eslint --ext .js,.ts,jsx,tsx .",
     "format": "prettier --write \"**/*.+(js|ts|jsx|tsx)\""
