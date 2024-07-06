@@ -1,18 +1,14 @@
-import type { Request, Response } from "express"
+import type { NextFunction, Request, Response } from "express"
 import mongoose from "mongoose"
 import { PRODUCTS_CAT } from "./ProductModel.js"
 import { paginateItems } from "../../helps/paginateItems.js"
 import { ProductService } from "./ProductService.js"
+import boom from "@hapi/boom"
 
 const service = new ProductService()
 
 export class ProductController {
-  async create(cli: Request, ser: Response) {
-    // @ts-ignore
-    if (!PRODUCTS_CAT[cli.body.category]) {
-      return ser.status(400).json({ message: "this category does no exist" })
-    }
-
+  async create(cli: Request, ser: Response, next: NextFunction) {
     try {
       const createdProduct = await service.create({
         title: cli.body.title,
@@ -21,12 +17,12 @@ export class ProductController {
       })
 
       ser.json(createdProduct)
-    } catch (error: any) {
-      ser.status(400).json({ message: error.message })
+    } catch (error) {
+      next(error)
     }
   }
 
-  async getAll(cli: Request, ser: Response) {
+  async getAll(cli: Request, ser: Response, next: NextFunction) {
     // @ts-ignore
     const categoryToShow = cli.query.category?.toLowerCase()
 
@@ -40,31 +36,30 @@ export class ProductController {
     // @ts-ignore
     const parsedPageNum = parseInt(cli.query.page)
 
-    if (isNaN(parsedPageNum)) return ser.sendStatus(400)
+    try {
+      if (isNaN(parsedPageNum)) throw boom.badRequest()
 
-    const products = await service.getAll(filterObj)
+      const products = await service.getAll(filterObj)
 
-    if (products.length === 0) {
-      ser.sendStatus(404)
-      return
+      ser.json({
+        totalResults: products.length,
+        ...paginateItems(parsedPageNum, products),
+      })
+    } catch (error) {
+      next(error)
     }
-
-    ser.json({
-      totalResults: products.length,
-      ...paginateItems(parsedPageNum, products),
-    })
   }
-  async getById(cli: Request, ser: Response) {
+  async getById(cli: Request, ser: Response, next: NextFunction) {
     const isObjIdValid = mongoose.Types.ObjectId.isValid(cli.params.id)
 
-    if (isObjIdValid === false) return ser.sendStatus(404)
+    try {
+      if (isObjIdValid === false) throw boom.notFound("product not found")
 
-    const prod = await service.getById({ id: cli.params.id })
-    //there is no exeption error if
-    //connection to mongodb fails (mongoose or mongodb??)
+      const prod = await service.getById({ id: cli.params.id })
 
-    if (!prod) return ser.sendStatus(404)
-
-    ser.json(prod)
+      ser.json(prod)
+    } catch (error) {
+      next(error)
+    }
   }
 }
