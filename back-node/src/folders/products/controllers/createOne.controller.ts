@@ -1,5 +1,8 @@
 import { Request, Response } from "express"
-import ProductModel, { PRODUCTS_CAT } from "../ProductModel"
+import { PRODUCTS_CAT } from "../ProductModel"
+import { ProductService } from "../ProductService"
+
+const service = new ProductService()
 
 export const createOne = async (cli: Request, ser: Response) => {
   console.log(`POST /products - create one new product`)
@@ -10,14 +13,13 @@ export const createOne = async (cli: Request, ser: Response) => {
   }
 
   try {
-    const prod = await ProductModel.create({
+    const createdProduct = await service.create({
       title: cli.body.title,
-      price: Math.trunc(Math.random() * 100) + 1,
       category: cli.body.category,
       imgSrc: cli.body.imgSrc,
     })
 
-    ser.json(prod)
+    ser.json(createdProduct)
   } catch (error: any) {
     ser.status(400).json({ message: error.message })
   }

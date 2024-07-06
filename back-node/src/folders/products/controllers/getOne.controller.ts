@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import mongoose from "mongoose"
-import ProductModel from "../ProductModel"
+import { ProductService } from "../ProductService"
+
+const service = new ProductService()
 
 export const getOne = async (cli: Request, ser: Response) => {
   console.log(`GET /products/${cli.params.id}`)
@@ -9,7 +11,7 @@ export const getOne = async (cli: Request, ser: Response) => {
 
   if (isObjIdValid === false) return ser.sendStatus(404)
 
-  const prod = await ProductModel.findById(cli.params.id)
+  const prod = await service.getById({ id: cli.params.id })
   //there is no exeption error if
   //connection to mongodb fails (mongoose or mongodb??)
 

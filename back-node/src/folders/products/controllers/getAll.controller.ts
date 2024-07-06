@@ -1,6 +1,9 @@
 import { Request, Response } from "express"
-import ProductModel, { PRODUCTS_CAT } from "../ProductModel"
+import { PRODUCTS_CAT } from "../ProductModel"
 import { paginateItems } from "../../../helps/paginateItems"
+import { ProductService } from "../ProductService"
+
+const service = new ProductService()
 
 export const getAll = async (cli: Request, ser: Response) => {
   console.log(`GET /products - page ${cli.query.page} - category ${cli.query.category}`)
@@ -12,15 +15,15 @@ export const getAll = async (cli: Request, ser: Response) => {
   const filterObj =
     // @ts-ignore
     categoryToShow !== "all" && PRODUCTS_CAT[categoryToShow]
-      ? { category: categoryToShow }
-      : {}
-
-  const products = await ProductModel.find(filterObj)
+      ? { category: categoryToShow as string }
+      : ({} as Record<string, never>)
 
   // @ts-ignore
   const parsedPageNum = parseInt(cli.query.page)
 
   if (isNaN(parsedPageNum)) return ser.sendStatus(400)
+
+  const products = await service.getAll(filterObj)
 
   if (products.length === 0) {
     ser.sendStatus(404)
