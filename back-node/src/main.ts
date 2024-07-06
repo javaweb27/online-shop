@@ -6,6 +6,11 @@ import authRouter from "./folders/auth/authRouter.js"
 import ordersRouter from "./folders/orders/ordersRouter.js"
 import productsRouter from "./folders/products/productsRouter.js"
 import usersRouter from "./folders/users/usersRouter.js"
+import {
+  mwBoomErrorHandler,
+  mwErrorHandler,
+  mwErrorLogger,
+} from "./middlewares/mwErrorHandler.js"
 
 checkJwtValues()
 
@@ -23,3 +28,8 @@ app.use("/auth", authRouter)
 app.use("/products", productsRouter)
 app.use("/users", usersRouter)
 app.use("/orders", ordersRouter)
+
+// These middlewares must be after configuring the routes
+app.use(mwBoomErrorHandler)
+app.use(mwErrorLogger)
+app.use(mwErrorHandler)
