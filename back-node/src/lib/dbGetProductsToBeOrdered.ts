@@ -1,4 +1,4 @@
-import ProductModel from "../folders/products/ProductModel"
+import ProductModel from "../folders/products/ProductModel.js"
 // import { Types } from "mongoose"
 
 const dbGetProductsToBeOrdered = async (

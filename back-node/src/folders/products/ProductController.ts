@@ -1,8 +1,8 @@
 import type { Request, Response } from "express"
 import mongoose from "mongoose"
-import { PRODUCTS_CAT } from "./ProductModel"
-import { paginateItems } from "../../helps/paginateItems"
-import { ProductService } from "./ProductService"
+import { PRODUCTS_CAT } from "./ProductModel.js"
+import { paginateItems } from "../../helps/paginateItems.js"
+import { ProductService } from "./ProductService.js"
 
 const service = new ProductService()
 

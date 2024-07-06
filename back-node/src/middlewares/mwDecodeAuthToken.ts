@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express"
-import { jwtVerifier } from "../lib/jwtVerifier"
+import type { NextFunction, Request, Response } from "express"
+import { jwtVerifier } from "../lib/jwtVerifier.js"
 
 /**
  * Takes the auth token from cli.headers["authorization"]

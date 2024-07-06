@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 
 export const changePassword = async (cli: Request, res: Response) => {
   console.log(`PUT /users - updating a user`)

@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express"
-import UserModel from "../folders/users/UserModel"
+import type { NextFunction, Request, Response } from "express"
+import UserModel from "../folders/users/UserModel.js"
 import { Types } from "mongoose"
 
 const mwGetUserBy: Record<

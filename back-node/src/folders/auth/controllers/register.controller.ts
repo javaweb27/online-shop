@@ -1,7 +1,7 @@
-import { Request, Response } from "express"
-import UserModel from "../../users/UserModel"
-import { mailerSendConfimationLink } from "../../../mailer"
-import { jwtConfirmEmailSigner } from "../../../lib/jwtConfirmEmailSigner"
+import type { Request, Response } from "express"
+import UserModel from "../../users/UserModel.js"
+import { mailerSendConfimationLink } from "../../../mailer.js"
+import { jwtConfirmEmailSigner } from "../../../lib/jwtConfirmEmailSigner.js"
 
 export const register = async (cli: Request, res: Response) => {
   console.log(`POST /users - create one new user`)

@@ -1,11 +1,11 @@
 import { Router } from "express"
-import mwGetUserBy from "../../middlewares/mwGetUserBy"
-import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
-import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
-import * as ordersController from "./controllers"
-import { newOrderRequestBodyMiddleware } from "./middlewares/newOrderRequestBody.middleware"
-import { productsToBeOrderedMiddleware } from "./middlewares/productsToBeOrdered.middleware"
-import { userEmailMustBeConfirmedMiddleware } from "./middlewares/userEmailMustBeConfirmed.middleware"
+import mwGetUserBy from "../../middlewares/mwGetUserBy.js"
+import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken.js"
+import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist.js"
+import * as ordersController from "./controllers/index.js"
+import { newOrderRequestBodyMiddleware } from "./middlewares/newOrderRequestBody.middleware.js"
+import { productsToBeOrderedMiddleware } from "./middlewares/productsToBeOrdered.middleware.js"
+import { userEmailMustBeConfirmedMiddleware } from "./middlewares/userEmailMustBeConfirmed.middleware.js"
 
 const ordersRouter = Router()
 

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { JWT_CONFIRM_EMAIL_KEY } from "../config"
+import { JWT_CONFIRM_EMAIL_KEY } from "../config.js"
 
 type Payload = {
   id: string

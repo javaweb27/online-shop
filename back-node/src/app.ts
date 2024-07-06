@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import { CORS_URL } from "./config"
+import { CORS_URL } from "./config.js"
 import morgan from "morgan"
 
 const app = express()

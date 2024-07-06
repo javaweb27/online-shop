@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer"
-import { CORS_URL, MAILER_EMAIL, MAILER_PASSWORD } from "./config"
+import { CORS_URL, MAILER_EMAIL, MAILER_PASSWORD } from "./config.js"
 
 // create reusable transporter object using the default SMTP transport
 const mailerTransporter = nodemailer.createTransport({

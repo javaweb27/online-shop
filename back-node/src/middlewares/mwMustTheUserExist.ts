@@ -5,7 +5,7 @@
  * @param {number} statusOnExist
  */
 
-import { NextFunction, Request, Response } from "express"
+import type { NextFunction, Request, Response } from "express"
 
 const mwMustTheUserExist = (mustItExist: boolean, statusOnExist = 404) => {
   return (cli: Request, res: Response, next: NextFunction) => {

@@ -1,2 +1,2 @@
-export { changePassword } from "./changePassword.controller"
-export { deleteOne } from "./deleteOne.controller"
+export { changePassword } from "./changePassword.controller.js"
+export { deleteOne } from "./deleteOne.controller.js"

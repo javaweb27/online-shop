@@ -1,6 +1,6 @@
-import { Request, Response } from "express"
-import UserModel from "../../users/UserModel"
-import { jwtConfirmEmailVerifier } from "../../../lib/jwtConfirmEmailVerifier"
+import type { Request, Response } from "express"
+import UserModel from "../../users/UserModel.js"
+import { jwtConfirmEmailVerifier } from "../../../lib/jwtConfirmEmailVerifier.js"
 
 /**
  * response code:

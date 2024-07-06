@@ -1,7 +1,7 @@
 import { Model, Schema, model } from "mongoose"
-import { SignCallback } from "jsonwebtoken"
-import { emailRegex } from "../../helps/regex"
-import { jwtSigner } from "../../lib/jwtSigner"
+import type { SignCallback } from "jsonwebtoken"
+import { emailRegex } from "../../helps/regex.js"
+import { jwtSigner } from "../../lib/jwtSigner.js"
 import bcrypt from "bcrypt"
 
 interface IUser {

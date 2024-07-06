@@ -1,6 +1,6 @@
-import { Request, Response } from "express"
-import OrderModel from "../OrderModel"
-import ProductModel from "../../products/ProductModel"
+import type { Request, Response } from "express"
+import OrderModel from "../OrderModel.js"
+import ProductModel from "../../products/ProductModel.js"
 
 /**
  * get one order of a user (including order's products)

@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express"
-import ProductModel from "../../products/ProductModel"
+import type { NextFunction, Request, Response } from "express"
+import ProductModel from "../../products/ProductModel.js"
 
-import { OrdersCreateOneResponse } from "../controllers/createOne.controller"
+import type { OrdersCreateOneResponse } from "../controllers/createOne.controller.js"
 
 /**
  * used in "ordersRouter" for creating a new order for a user

@@ -1,6 +1,6 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 // import dbGetProductsToBeOrdered from "../../../lib/dbGetProductsToBeOrdered"
-import OrderModel from "../OrderModel"
+import OrderModel from "../OrderModel.js"
 // import { matchedData, validationResult } from "express-validator"
 import { Types } from "mongoose"
 

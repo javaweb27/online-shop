@@ -1,4 +1,4 @@
-import { JWT_CONFIRM_EMAIL_KEY, JWT_TOKEN_KEY } from "./config"
+import { JWT_CONFIRM_EMAIL_KEY, JWT_TOKEN_KEY } from "./config.js"
 
 /**
  * call this function before starting to listen the server

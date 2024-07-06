@@ -1,8 +1,8 @@
 import { Router } from "express"
-import mwGetUserBy from "../../middlewares/mwGetUserBy"
-import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
-import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken"
-import * as usersController from "./controllers"
+import mwGetUserBy from "../../middlewares/mwGetUserBy.js"
+import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist.js"
+import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken.js"
+import * as usersController from "./controllers/index.js"
 
 const usersRouter = Router()
 

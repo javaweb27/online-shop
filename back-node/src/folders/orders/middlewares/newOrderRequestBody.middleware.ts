@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express"
+import type { NextFunction, Request, Response } from "express"
 import { body, matchedData, validationResult } from "express-validator"
-import { OrdersCreateOneResponse } from "../controllers/createOne.controller"
+import type { OrdersCreateOneResponse } from "../controllers/createOne.controller.js"
 
 export const newOrderRequestBodyMiddleware: ((
   cli: Request,

@@ -1,11 +1,11 @@
-import app from "./app"
-import { checkJwtValues } from "./checkJwtValues"
-import { PORT } from "./config"
-import { connectMongodb } from "./connectMongodb"
-import authRouter from "./folders/auth/authRouter"
-import ordersRouter from "./folders/orders/ordersRouter"
-import productsRouter from "./folders/products/productsRouter"
-import usersRouter from "./folders/users/usersRouter"
+import app from "./app.js"
+import { checkJwtValues } from "./checkJwtValues.js"
+import { PORT } from "./config.js"
+import { connectMongodb } from "./connectMongodb.js"
+import authRouter from "./folders/auth/authRouter.js"
+import ordersRouter from "./folders/orders/ordersRouter.js"
+import productsRouter from "./folders/products/productsRouter.js"
+import usersRouter from "./folders/users/usersRouter.js"
 
 checkJwtValues()
 

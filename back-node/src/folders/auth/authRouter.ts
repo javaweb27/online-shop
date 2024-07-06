@@ -1,7 +1,7 @@
 import { Router } from "express"
-import mwGetUserBy from "../../middlewares/mwGetUserBy"
-import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist"
-import * as authController from "./controllers"
+import mwGetUserBy from "../../middlewares/mwGetUserBy.js"
+import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist.js"
+import * as authController from "./controllers/index.js"
 
 const authRouter = Router()
 // auth - log in

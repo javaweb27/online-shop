@@ -1,5 +1,5 @@
-import { Request, Response } from "express"
-import OrderModel from "../OrderModel"
+import type { Request, Response } from "express"
+import OrderModel from "../OrderModel.js"
 
 /**
  * get all orders of a user

@@ -1,7 +1,7 @@
-import { Request, Response } from "express"
-import UserModel from "../../users/UserModel"
-import { jwtConfirmEmailSigner } from "../../../lib/jwtConfirmEmailSigner"
-import { mailerSendConfimationLink } from "../../../mailer"
+import type { Request, Response } from "express"
+import UserModel from "../../users/UserModel.js"
+import { jwtConfirmEmailSigner } from "../../../lib/jwtConfirmEmailSigner.js"
+import { mailerSendConfimationLink } from "../../../mailer.js"
 
 /**
  * response code:

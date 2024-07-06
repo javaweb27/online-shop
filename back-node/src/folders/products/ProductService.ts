@@ -1,4 +1,4 @@
-import ProductModel from "./ProductModel"
+import ProductModel from "./ProductModel.js"
 
 export class ProductService {
   async create(product: { title: string; category: string; imgSrc: string }) {

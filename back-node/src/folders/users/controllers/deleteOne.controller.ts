@@ -1,5 +1,5 @@
-import { Request, Response } from "express"
-import UserModel from "../UserModel"
+import type { Request, Response } from "express"
+import UserModel from "../UserModel.js"
 
 /**
  * deletes a user (own decision of the user)

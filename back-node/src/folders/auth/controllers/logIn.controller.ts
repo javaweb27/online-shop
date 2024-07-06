@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 
 export const logIn = async (cli: Request, ser: Response) => {
   console.log("POST /auth - login user by email")

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { JWT_TOKEN_KEY } from "../config"
+import { JWT_TOKEN_KEY } from "../config.js"
 
 export const jwtSigner = async <T extends Record<string, unknown>>(
   data: T
