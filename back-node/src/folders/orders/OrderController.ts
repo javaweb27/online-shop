@@ -1,7 +1,8 @@
-import type { Request, Response } from "express"
+import type { NextFunction, Request, Response } from "express"
 import { Types } from "mongoose"
 import OrderModel from "./OrderModel.js"
 import ProductModel from "../products/ProductModel.js"
+import boom from "@hapi/boom"
 
 export type OrdersCreateOneResponse = {
   locals: {
@@ -17,7 +18,11 @@ export type OrdersCreateOneResponse = {
 }
 
 export class OrderController {
-  async create(cli: Request, res: Response<any, OrdersCreateOneResponse["locals"]>) {
+  async create(
+    cli: Request,
+    res: Response<any, OrdersCreateOneResponse["locals"]>,
+    next: NextFunction
+  ) {
     const { productsToBeOrdered, orderTotalPrice } = res.locals
 
     // res.json({ productsToBeOrdered, orderTotalPrice })
@@ -25,31 +30,26 @@ export class OrderController {
     // @ts-ignore
     const User = cli.mwUser
 
-    if (User.balance < orderTotalPrice) {
-      res.status(409).json({ message: "balance is not enough" })
-      return
-    }
-
-    User.balance -= orderTotalPrice
-
-    const newOrder = new OrderModel({
-      // auto object _id for order
-      // auto createdAt date for order
-      productsObjIds: productsToBeOrdered,
-      street: res.locals.requestOrder.street,
-      userId: User._id,
-    })
-
     try {
+      if (User.balance < orderTotalPrice) {
+        throw boom.conflict("balance is not enough")
+      }
+
+      User.balance -= orderTotalPrice
+
+      const newOrder = new OrderModel({
+        // auto object _id for order
+        // auto createdAt date for order
+        productsObjIds: productsToBeOrdered,
+        street: res.locals.requestOrder.street,
+        userId: User._id,
+      })
+
       await Promise.all([User.save(), newOrder.save()])
 
       res.status(201).json({ message: "order created at " + newOrder.createdAt })
-    } catch (error: any) {
-      console.log(error)
-
-      res.status(500).json({
-        message: "error when creating a new order",
-      })
+    } catch (error) {
+      next(error)
     }
   }
 
@@ -65,7 +65,7 @@ export class OrderController {
     }
   }
 
-  async getById(cli: Request, res: Response) {
+  async getById(cli: Request, res: Response, next: NextFunction) {
     // @ts-ignore
     const User = cli.mwUser
 
@@ -75,7 +75,7 @@ export class OrderController {
         userId: User._id,
       })
 
-      if (!orderFound) return res.status(404).json({ message: "Cannot find order" })
+      if (!orderFound) throw boom.notFound("Cannot find order")
 
       const orderedProducts = await ProductModel.find(
         {
@@ -101,9 +101,7 @@ export class OrderController {
 
       res.json(orderData)
     } catch (error) {
-      res.status(500).json({
-        message: "error when getting a order or the ordered products of a order",
-      })
+      next(error)
     }
   }
 }
