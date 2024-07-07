@@ -53,7 +53,7 @@ export class OrderController {
     }
   }
 
-  async getAll(cli: Request, res: Response) {
+  async getAll(cli: Request, res: Response, next: NextFunction) {
     // @ts-ignore
     const { _id, email } = cli.mwUser
 
@@ -61,7 +61,7 @@ export class OrderController {
       const orders = await OrderModel.find({ userId: _id }, { userId: 0 })
       res.json({ _id, email, orders })
     } catch (error) {
-      res.status(500).json({ message: "error when getting all orders of a user" })
+      next(error)
     }
   }
 
