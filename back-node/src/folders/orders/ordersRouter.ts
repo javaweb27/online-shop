@@ -2,12 +2,14 @@ import { Router } from "express"
 import mwGetUserBy from "../../middlewares/mwGetUserBy.js"
 import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken.js"
 import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist.js"
-import * as ordersController from "./controllers/index.js"
 import { newOrderRequestBodyMiddleware } from "./middlewares/newOrderRequestBody.middleware.js"
 import { productsToBeOrderedMiddleware } from "./middlewares/productsToBeOrdered.middleware.js"
 import { userEmailMustBeConfirmedMiddleware } from "./middlewares/userEmailMustBeConfirmed.middleware.js"
+import { OrderController } from "./OrderController.js"
 
 const ordersRouter = Router()
+
+const controller = new OrderController()
 
 // Getting orders of a user
 ordersRouter.get(
@@ -15,7 +17,7 @@ ordersRouter.get(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true, 409),
-  ordersController.getAll
+  controller.getAll
 )
 
 // Getting one order of a user
@@ -24,7 +26,7 @@ ordersRouter.get(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true, 409),
-  ordersController.getOne
+  controller.getById
 )
 
 // Creating one new order for one user
@@ -36,7 +38,7 @@ ordersRouter.post(
   userEmailMustBeConfirmedMiddleware,
   ...newOrderRequestBodyMiddleware,
   productsToBeOrderedMiddleware,
-  ordersController.createOne
+  controller.create
 )
 
 export default ordersRouter
