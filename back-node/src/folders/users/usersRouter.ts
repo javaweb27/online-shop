@@ -2,9 +2,11 @@ import { Router } from "express"
 import mwGetUserBy from "../../middlewares/mwGetUserBy.js"
 import mwMustTheUserExist from "../../middlewares/mwMustTheUserExist.js"
 import mwDecodeAuthToken from "../../middlewares/mwDecodeAuthToken.js"
-import * as usersController from "./controllers/index.js"
+import { UserController } from "./UserController.js"
 
 const usersRouter = Router()
+
+const controller = new UserController()
 
 /*
   create new user (register)
@@ -17,7 +19,7 @@ usersRouter.put(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true),
-  usersController.changePassword
+  controller.changePassword
 )
 
 // Deleting a user (a user decided to delete his account)
@@ -26,7 +28,7 @@ usersRouter.delete(
   mwDecodeAuthToken,
   mwGetUserBy.tokenPayload,
   mwMustTheUserExist(true),
-  usersController.deleteOne
+  controller.deleteByEmail
 )
 
 export default usersRouter
